@@ -25,11 +25,6 @@ float Shape::gety() const
 	return this->y;
 }
 
-float Shape::getSize() const
-{
-	return this->size;
-}
-
 void Shape::move(float x, float y)
 {
 	this->x = x;
@@ -54,11 +49,6 @@ void Shape::decrementx()
 void Shape::decrementy()
 {
 	this->y -= 1;
-}
-
-bool Shape::collision(const Shape* s)
-{
-	return (this->getx() == s->getx() && this->gety() == s->gety());
 }
 
 Shape& Shape::operator++(int)
@@ -96,8 +86,7 @@ Shape& Shape::operator--()
 bool Shape::operator==(const Shape& s)
 {
 	return (this->getx() == s.getx()) &&
-		(this->gety() == s.gety()) &&
-		(this->getSize() == s.getSize());
+		(this->gety() == s.gety());
 }
 
 void Shape::setx(float x)
@@ -110,8 +99,13 @@ void Shape::sety(float y)
 	this->y = y;
 }
 
-void Shape::setSize(float size)
+
+/* WHen called will return a s representing that this object is a generic shape
+   if you get this then that means this function hasn't been impliemnted for the shape
+   and something isn't working as expected
+*/
+char Shape::whatAmI() const
 {
-	this->size = size;
+	return 's';
 }
 

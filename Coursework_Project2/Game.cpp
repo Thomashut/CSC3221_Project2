@@ -17,14 +17,13 @@ using namespace std;
 int main()
 {
 	Square* sq1 = new Square();
-	Square* sq2 = new Square(1.0, 2.0, 5.0);
+	Square* sq2 = new Square(1.0, 2.0, 5.0,5.0);
 	Square* sq3 = new Square(*sq1);
 
 	Circle* ci1 = new Circle();
 	Circle* ci2 = new Circle(1.0, 2.0, 5.0, 10.0);
 	Circle* ci3 = new Circle(*ci1);
 
-	//cout << sq1 << sq2 << sq3;
-	//cout << ci1 << ci2 << ci3;
+
 
 }

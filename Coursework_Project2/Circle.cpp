@@ -15,7 +15,6 @@ Circle::Circle()
 {
 	this->setx(DEFAULT_X);
 	this->sety(DEFAULT_Y);
-	this->setSize(DEFAULT_SIZE);
 	this->setRadius(DEFAULT_RADIUS);
 }
 
@@ -23,7 +22,6 @@ Circle::Circle(const Circle& s)
 {
 	this->setx(s.getx());
 	this->sety(s.gety());
-	this->setSize(s.getSize());
 	this->setRadius(s.getRadius());
 }
 
@@ -31,19 +29,12 @@ Circle::Circle(float x, float y, float size, float radius)
 {
 	this->setx(x);
 	this->sety(y);
-	this->setSize(size);
 	this->setRadius(radius);
 }
 
 Circle::~Circle()
 {
 	delete this;
-}
-
-// TO-DO -- DIFFICULT
-bool Circle::collision(const Shape& s)
-{
-	return true;
 }
 
 float Circle::getRadius() const
@@ -60,8 +51,13 @@ bool Circle::operator==(const Circle& s)
 {
 	return (this->getx() == s.getx() &&
 		this->gety() == s.gety() &&
-		this->getSize() == s.getSize() &&
 		this->getRadius() == s.getRadius());
+}
+
+// WHen called will return a c representing that this object is a circle
+char Circle::whatAmI() const
+{
+	return 'c';
 }
 
 Circle& Circle::operator=(const Circle& s)
@@ -71,7 +67,6 @@ Circle& Circle::operator=(const Circle& s)
 
 	this->setx(s.getx());
 	this->sety(s.gety());
-	this->setSize(s.getSize());
 	this->setRadius(s.getRadius());
 
 	return *this;

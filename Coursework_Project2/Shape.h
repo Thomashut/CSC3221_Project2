@@ -10,7 +10,6 @@
 */
 const static float DEFAULT_X = 1;
 const static float DEFAULT_Y = 1;
-const static float DEFAULT_SIZE = 1;
 
 class Shape 
 {
@@ -22,9 +21,6 @@ public:
 	float getx() const;
 	float gety() const;
 
-	// Returns the size of the shape
-	float getSize() const;
-
 	// Given two floats this will move the shape to a specific location on the grid (teleport)
 	void move(float x, float y);
 
@@ -35,9 +31,6 @@ public:
 	// When called with decrease the x or y coordinate by 1
 	void decrementx();
 	void decrementy();
-
-	// A base function that can be overriden by children classes. When called it will detect if it has collided with something
-	virtual bool collision(const Shape* s);
 
 	/*
 		The following overloads will increment and decrement the current shapes position respectively.So when a ++ is called
@@ -53,26 +46,22 @@ public:
 	// Default implimentation for the equals operator
 	virtual bool operator==(const Shape& s);
 
-	// Default output for a shape to make for easier debugging
-	friend std::ostream& operator<<(std::ostream& os, const Shape& s);
-	
+	// Function which returns a single char representing the shape type
+	virtual char whatAmI() const;
+
 
 	//Start of Setter Methods
 	void setx(float x);
 	void sety(float y);
-	void setSize(float size);
 
 private:
 	float x;
 	float y;
-
-	float size;
 };
 
-// Implimentation of the default output function.
-std::ostream& operator<<(std::ostream& os, const Shape& s)
-{
-	os << "Shape's X cord: " << s.x << " Shapes Y cord: " << s.y << " Shapes Size: " << s.size << "\n";
-	return os;
-}
+//std::ostream& operator<<(std::ostream& os, const Shape& s)
+//{
+//	os << s.output();
+//	return os;
+//}
 

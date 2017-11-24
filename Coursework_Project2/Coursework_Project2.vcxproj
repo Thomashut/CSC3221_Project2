@@ -131,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Circle.cpp" />
+    <ClCompile Include="Collisions.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="Square.cpp" />

@@ -15,21 +15,24 @@ Square::Square()
 {
 	this->setx(DEFAULT_X);
 	this->sety(DEFAULT_Y);
-	this->setSize(DEFAULT_SIZE);
+	this->setHeight(DEFAULT_HEIGHT);
+	this->setWidth(DEFAULT_WIDTH);
 }
 
 Square::Square(const Square& s)
 {
 	this->setx(s.getx());
 	this->sety(s.gety());
-	this->setSize(s.getSize());
+	this->setHeight(s.getHeight());
+	this->setWidth(s.getWidth());
 }
 
-Square::Square(float x, float y, float size)
+Square::Square(float x, float y, float width, float height)
 {
 	this->setx(x);
 	this->sety(y);
-	this->setSize(size);
+	this->setWidth(width);
+	this->setHeight(height);
 }
 
 Square::~Square()
@@ -44,22 +47,52 @@ Square& Square::operator=(const Square& s)
 
 	this->setx(s.getx());
 	this->sety(s.gety());
-	this->setSize(s.getSize());
+	this->setHeight(s.getHeight());
+	this->setWidth(s.getWidth());
 
 	return *this;
+}
+
+float Square::getWidth() const
+{
+	return this->width;
+}
+
+float Square::getHeight() const
+{
+	return this->height;
+}
+
+void Square::setWidth(float width)
+{
+	this->width = width;
+}
+
+void Square::setHeight(float height)
+{
+	this->height = height;
+}
+
+float Square::calculateShapeX() const
+{
+	return this->getx() + this->getWidth();
+}
+
+float Square::calculateShapeY() const
+{
+	return this->gety() + this->getHeight();
 }
 
 bool Square::operator==(const Square& s)
 {
 	return (this->getx() == s.getx() &&
 		this->gety() == s.gety() &&
-		this->getSize() == s.getSize());
+		this->getHeight() == s.getHeight() &&
+		this->getWidth() == s.getWidth());
 }
 
-
-
-// TO-DO
-bool Square::collision(const Shape& s)
+// WHen called will return a r representing that this object is a rectangle (square)
+char Square::whatAmI() const
 {
-	return true;
+	return 'r';
 }

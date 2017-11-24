@@ -25,8 +25,6 @@ class Circle : public Shape
 
 		virtual ~Circle();
 
-		virtual bool collision(const Shape& s);
-
 		float getRadius() const;
 
 		void setRadius(float radius);
@@ -35,15 +33,10 @@ class Circle : public Shape
 
 		virtual Circle& operator=(const Circle& s);
 
-		//friend std::ostream& operator<<(std::ostream& os, const Circle& c);
+		// Function which returns a single char representing the shape type
+		virtual char whatAmI() const;
+
 	private:
 		float radius;
 
 };
-
-//std::ostream& operator<<(std::ostream& os, const Circle& c)
-//{
-//	os << "Circle's X Position: " << c.getx() << " Circle's y Position: " << c.gety() <<
-//		" Circle's Size: " << c.getSize() << " Circles's Radius: " << c.getRadius() << "\n";
-//	return os;
-//}
