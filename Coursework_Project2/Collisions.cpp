@@ -2,6 +2,7 @@
 #include "Shape.h"
 #include "Circle.h"
 #include "Square.h"
+#include <math.h>
 /*
 	Author	: Thomas Hutchinson
 	File	: Collisions.cpp
@@ -41,12 +42,32 @@ static bool rectangleRectangleCollision(const Square& sqr1, const Square& sqr2)
 
 }
 
-static bool circleCircleCollision(const Shape& crl1, const Shape& crl2)
+/*
+	Calculate whether a collision between two circles has occured by seeing if their radi have
+	overlapped with one another. The first section calulates the distance beteween them and then the second
+	section calculates their combined radi and if the distance between them is less than their combined
+	radi then they must be touching. If the distance between the two circles is greater than the combined
+	radi then they are too far away from one another and they cannot be touching.
+*/
+static bool circleCircleCollision(const Circle& crl1, const Circle& crl2)
 {
-	return true;
+	float combinedRadius = pow((crl1.getRadius() + crl2.getRadius()), 2.0);
+	float distance = pow((crl2.getx() - crl1.getx()), 2.0) + pow((crl2.gety() - crl1.gety()), 2.0);
+
+	return distance <= combinedRadius;
 }
 
-static bool rectangleCircleCollision(const Shape& s1, const Shape& s2)
+/*
+	Calculates whether a collison between a circle and rectangle has occured by seeing if their distance
+	between their coordinates is less than or equal to their combined peremeter/radius. If the distance between
+	them is greater than their combined radius/paremeter then they cannot be touching and this function
+	will return false. However, if the distance between them is less than the combined peremter/radius the
+	two shapes must overlap in some way
+*/
+static bool rectangleCircleCollision(const Square& s1, const Circle& s2)
 {
-	return true;
+	float combinedRadius = pow((s1.getWidth() + s1.getHeight()) + s2.getRadius(),2.0);
+	float distance = pow(s1.getx() - s2.getx(),2.0) + pow(s1.gety() - s1.gety(),2.0);
+
+	return distance <= combinedRadius;
 }

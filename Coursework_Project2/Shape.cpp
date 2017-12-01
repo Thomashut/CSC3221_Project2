@@ -1,5 +1,7 @@
 #pragma once
-#include "Shape.h";
+#include "Square.h"
+#include "Circle.h"
+#include <stdexcept>
 /*
 	Author : Thomas Hutchinson
 	File   : Shape.cpp
@@ -9,26 +11,40 @@
 		It is an abastract class though as it makes no sense to ever create an object that
 		is just a "shape". Both circle and square inherit from this class.
 */
+Shape::Shape()
+{
+	this->setx(DEFAULT_X);
+	this->sety(DEFAULT_Y);
+}
+
+Shape::Shape(float x, float y)
+{
+	this->x = new float(x);
+	this->y = new float(y);
+}
+
+Shape::Shape(const Shape& s) 
+{
+	this->setx(s.getx());
+	this->sety(s.gety());
+}
+
 
 Shape::~Shape()
 {
+	delete this->x;
+	delete this->y;
 	delete this;
 }
 
 float Shape::getx() const
 {
-	return this->x;
+	return *this->x;
 }
 
 float Shape::gety() const
 {
-	return this->y;
-}
-
-void Shape::move(float x, float y)
-{
-	this->x = x;
-	this->y = y;
+	return *this->y;
 }
 
 void Shape::incrementx()
@@ -91,12 +107,30 @@ bool Shape::operator==(const Shape& s)
 
 void Shape::setx(float x)
 {
-	this->x = x;
+	if (this->x == nullptr)
+	{
+		this->x = new float(x);
+	}
+	else
+	{
+		float* ptr = this->x;
+		this->x = new float(x);
+		delete ptr;
+	}
 }
 
 void Shape::sety(float y)
 {
-	this->y = y;
+	if (this->y == nullptr)
+	{
+		this->y = new float(y);
+	}
+	else
+	{
+		float* ptr = this->y;
+		this->y = new float(y);
+		delete ptr;
+	}
 }
 
 

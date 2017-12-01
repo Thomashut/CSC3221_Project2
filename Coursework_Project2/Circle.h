@@ -21,7 +21,7 @@ class Circle : public Shape
 		Circle(const Circle& s);
 
 		// Normal Constructor
-		Circle(float x, float y, float size, float radius);
+		Circle(float x, float y, float radius);
 
 		virtual ~Circle();
 
@@ -29,7 +29,7 @@ class Circle : public Shape
 
 		void setRadius(float radius);
 
-		virtual bool operator==(const Circle& s);
+		bool operator==(const Circle& s);
 
 		virtual Circle& operator=(const Circle& s);
 
@@ -37,6 +37,14 @@ class Circle : public Shape
 		virtual char whatAmI() const;
 
 	private:
-		float radius;
+		float* radius = nullptr;
 
 };
+
+//std::ostream& operator<< (std::ostream& os, const Circle& s)
+//{
+//	os << " : x = " << s.getx() << " y = " <<
+//		s.gety() << " radius = " << s.getRadius() << "\n";
+//
+//	return os;
+//}

@@ -15,14 +15,18 @@ class Shape
 {
 
 public:
+	Shape();
+
+	Shape(float x, float y);
+
+	Shape(const Shape& s);
+
 	virtual ~Shape();
 
 	// Getters for the shape class, all shapes will move on the grid in the same way so these methods can stay the same
 	float getx() const;
 	float gety() const;
 
-	// Given two floats this will move the shape to a specific location on the grid (teleport)
-	void move(float x, float y);
 
 	// When called will increase the x or y coordinate by 1
 	void incrementx();
@@ -44,10 +48,10 @@ public:
 	Shape& operator--();
 
 	// Default implimentation for the equals operator
-	virtual bool operator==(const Shape& s);
+	bool operator==(const Shape& s);
 
 	// Function which returns a single char representing the shape type
-	virtual char whatAmI() const;
+	virtual char whatAmI() const = 0;
 
 
 	//Start of Setter Methods
@@ -55,13 +59,15 @@ public:
 	void sety(float y);
 
 private:
-	float x;
-	float y;
+	float* x = nullptr;
+	float* y = nullptr;
 };
 
-//std::ostream& operator<<(std::ostream& os, const Shape& s)
+//std::ostream& operator<< (std::ostream& os, const Shape& s)
 //{
-//	os << s.output();
+//	os << " : x = " << s.getx() << " y = " <<
+//		s.gety() << "\n";
+//
 //	return os;
 //}
 

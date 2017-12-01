@@ -7,8 +7,9 @@
 	Description:
 		Implimentation of the square header file that inherits from the shape file.
 		This class provides the implimentation of the square shape. It provides methods in
-		how to calculate it's size and movement as well with how to calculate it's collisions
-		with other shapes
+		how to calculate it's size and movement. The X and Y point represent the bottom left hand
+		point of the square and then from there you can use the height and the width to calcuate the
+		rest of the square/rectangle
 */
 
 Square::Square()
@@ -31,13 +32,14 @@ Square::Square(float x, float y, float width, float height)
 {
 	this->setx(x);
 	this->sety(y);
-	this->setWidth(width);
-	this->setHeight(height);
+	this->width = new float(width);
+	this->height = new float(height);
 }
 
 Square::~Square()
 {
-	delete this;
+	delete this->width;
+	delete this->height;
 }
 
 Square& Square::operator=(const Square& s)
@@ -55,22 +57,40 @@ Square& Square::operator=(const Square& s)
 
 float Square::getWidth() const
 {
-	return this->width;
+	return *this->width;
 }
 
 float Square::getHeight() const
 {
-	return this->height;
+	return *this->height;
 }
 
 void Square::setWidth(float width)
 {
-	this->width = width;
+	if (this->width == nullptr)
+	{
+		this->width = new float(width);
+	}
+	else
+	{
+		float* ptr = this->width;
+		this->width = new float(width);
+		delete ptr;
+	}
 }
 
 void Square::setHeight(float height)
 {
-	this->height = height;
+	if (this->height == nullptr)
+	{
+		this->height = new float(height);
+	}
+	else
+	{
+		float* ptr = this->height;
+		this->height = new float(height);
+		delete ptr;
+	}
 }
 
 float Square::calculateShapeX() const

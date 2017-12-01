@@ -1,13 +1,12 @@
 #pragma once
 #include "Shape.h";
-#include <ostream>;
 /*
 	Author : Thomas Hutchinson
 	File   : Square.h
 	Purpose: Programming for Games - Coursework 2
 	Description:
 		Inherits from the shape header. This header provides information about the 
-		square varient of a shape. A square is represented by an x and a y point on a 2nd plane.
+		square varient of a shape. A square is represented by an x and a y point on a 2D plane.
 		This point marks the bottom left corner of the square. From there the width and the height
 		can be used to callculate the size of the square on the grid.
 */
@@ -43,13 +42,21 @@ class Square : public Shape
 		// Overload of the assignment operator
 		virtual Square& operator=(const Square& s);
 
-		virtual bool operator==(const Square& s);
+		bool operator==(const Square& s);
 
 		// Function which returns a single char representing the shape type
 		virtual char whatAmI() const;
 
 	private:
-		float width;
-		float height;
+		float* width = nullptr;
+		float* height = nullptr;
 
 };
+
+//std::ostream& operator<< (std::ostream& os, const Square& s)
+//{
+//	os << " : x = " << s.getx() << " y = " <<
+//		s.gety() << " width = " << s.getWidth() << " height = " << s.getHeight() << "\n";
+//
+//	return os;
+//}

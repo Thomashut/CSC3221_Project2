@@ -7,8 +7,7 @@
 	Description:
 		This class provides the concrete implimentation of the Circle header file.
 		A circle is an object that inherits from the shape class and this file specificly
-		provides that implimentation. The circle can detect it's own size and movement as well
-		as detecting collsions with others.
+		provides that implimentation. The circle can detect it's own size and movement.
 */
 
 Circle::Circle()
@@ -25,26 +24,35 @@ Circle::Circle(const Circle& s)
 	this->setRadius(s.getRadius());
 }
 
-Circle::Circle(float x, float y, float size, float radius)
+Circle::Circle(float x, float y, float radius)
 {
 	this->setx(x);
 	this->sety(y);
-	this->setRadius(radius);
+	this->radius = new float(radius);
 }
 
 Circle::~Circle()
 {
-	delete this;
+	delete this->radius;
 }
 
 float Circle::getRadius() const
 {
-	return this->radius;
+	return *this->radius;
 }
 
 void Circle::setRadius(float radius)
 {
-	this->radius = radius;
+	if (this->radius == nullptr)
+	{
+		this->radius = new float(radius);
+	}
+	else
+	{
+		float* ptr = this->radius;
+		this->radius = new float(radius);
+		delete ptr;
+	}
 }
 
 bool Circle::operator==(const Circle& s)
