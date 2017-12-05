@@ -47,6 +47,8 @@ public:
 	Shape& operator--(int);
 	Shape& operator--();
 
+	virtual Shape& operator=(const Shape& s);
+
 	// Default implimentation for the equals operator
 	bool operator==(const Shape& s);
 

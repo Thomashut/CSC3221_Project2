@@ -28,12 +28,13 @@ Circle::Circle(float x, float y, float radius)
 {
 	this->setx(x);
 	this->sety(y);
-	this->radius = new float(radius);
+	this->setRadius(radius);
 }
 
 Circle::~Circle()
 {
 	delete this->radius;
+	delete this;
 }
 
 float Circle::getRadius() const

@@ -32,8 +32,11 @@ Shape::Shape(const Shape& s)
 
 Shape::~Shape()
 {
-	delete this->x;
-	delete this->y;
+	float* ptr1 = this->x;
+	float* ptr2 = this->y;
+
+	delete ptr1;
+	delete ptr2;
 	delete this;
 }
 
@@ -95,6 +98,17 @@ Shape& Shape::operator--()
 {
 	this->x -= 1;
 	this->y -= 1;
+
+	return *this;
+}
+
+Shape& Shape::operator=(const Shape& s)
+{
+	if (*this == s)
+		return *this;
+
+	this->setx(s.getx());
+	this->sety(s.gety());
 
 	return *this;
 }

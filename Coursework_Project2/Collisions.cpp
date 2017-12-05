@@ -20,6 +20,10 @@
 	Expects 2 rectangles (squares) will return true if they are touching
 	Will return false if they aren't touching or aren't actually squares
 */
+
+// Just storing pi here to save doing extra calculations or importing it from somewhere else, helps save performance
+const static float pi = 3.14159265359;
+
 static bool rectangleRectangleCollision(const Square& sqr1, const Square& sqr2)
 {
 	// Calculate the upper bounds of the two given squares
@@ -35,10 +39,13 @@ static bool rectangleRectangleCollision(const Square& sqr1, const Square& sqr2)
 		if square twos y is within the lower and upper bound of square 1s y then true OR
 		if square ones y is within the lower and upper bound of square 2s y then true
 	*/
-	return( (sqr2.getx() >= sqr1.getx() && sqr2.getx() <= sqr1RightCornerX) ||
-				(sqr1.getx() >= sqr2.getx() && sqr1.getx() <= sqr2RightCornerX) ||
-				(sqr2.gety() >= sqr1.gety() && sqr2.gety() <= sqr1RightCornerY) ||
-				(sqr1.gety() >= sqr2.gety() && sqr1.gety() <= sqr2RightCornerY));
+	return( ((sqr2.getx() >= sqr1.getx() && sqr2.getx() <= sqr1RightCornerX) &&
+			(sqr2.gety() >= sqr1.gety() && sqr2.gety() <= sqr1RightCornerY) )
+											
+											||
+			
+			((sqr1.getx() >= sqr2.getx() && sqr1.getx() <= sqr2RightCornerX) &&
+			(sqr1.gety() >= sqr2.gety() && sqr1.gety() <= sqr2RightCornerY)) );
 
 }
 
@@ -51,10 +58,10 @@ static bool rectangleRectangleCollision(const Square& sqr1, const Square& sqr2)
 */
 static bool circleCircleCollision(const Circle& crl1, const Circle& crl2)
 {
-	float combinedRadius = pow((crl1.getRadius() + crl2.getRadius()), 2.0);
-	float distance = pow((crl2.getx() - crl1.getx()), 2.0) + pow((crl2.gety() - crl1.gety()), 2.0);
+	float combinedCircumfrance = crl1.getRadius() + crl2.getRadius();
+	float distance = abs(crl1.getx - crl2.getx()) + abs(crl1.gety() - crl2.gety());
 
-	return distance <= combinedRadius;
+	return distance <= combinedCircumfrance;
 }
 
 /*

@@ -22,8 +22,6 @@ Square::Square()
 
 Square::Square(const Square& s)
 {
-	this->setx(s.getx());
-	this->sety(s.gety());
 	this->setHeight(s.getHeight());
 	this->setWidth(s.getWidth());
 }
@@ -32,14 +30,15 @@ Square::Square(float x, float y, float width, float height)
 {
 	this->setx(x);
 	this->sety(y);
-	this->width = new float(width);
-	this->height = new float(height);
+	this->setWidth(width);
+	this->setHeight(height);
 }
 
 Square::~Square()
 {
 	delete this->width;
 	delete this->height;
+	delete this;
 }
 
 Square& Square::operator=(const Square& s)

@@ -23,8 +23,8 @@ int main()
 	vector<Circle*> circleVector = vector<Circle*>(0);
 	for (int i = 0; i < 10; i++)
 	{
-		float x = rand() % 10 + 1;
-		float y = rand() % 10 + 1;
+		float x = rand() % 100 + 1;
+		float y = rand() % 100 + 1;
 		float radius = rand() % 10 + 1;
 		Circle* crl = new Circle(x, y, radius);
 
@@ -35,8 +35,8 @@ int main()
 	vector<Square*> squareVector = vector<Square*>(0);
 	for (int i = 0; i < 10; i++)
 	{
-		float x = rand() % 10 + 1;
-		float y = rand() % 10 + 1;
+		float x = rand() % 100 + 1;
+		float y = rand() % 100 + 1;
 		float width = rand() % 10 + 1;
 		float height = rand() % 10 + 1;
 		Square* sqr = new Square(x, y, width, height);
@@ -67,7 +67,7 @@ int main()
 		if(squareVector[i] != nullptr)
 		for (int j = 0; j < circleVector.size(); j++)
 		{
-			if(circleVector[j] != nullptr || squareVector[i] != nullptr)
+			if(circleVector[j] != nullptr && squareVector[i] != nullptr)
 				if (rectangleCircleCollision(*squareVector[i], *circleVector[j]))
 				{
 					cout << "COLLISION - between Square : " << i << " and Circle : " << j << endl;
@@ -77,12 +77,12 @@ int main()
 					squareVector[i] = nullptr;
 					circleVector[j] = nullptr;
 
-					delete ptr1;
-					delete ptr2;
+					//delete ptr1;
+					//delete ptr2;
 				}
 		}
 
-		if (squareVector[i] != nullptr || squareVector[i] != nullptr)
+		if (squareVector[i] != nullptr && squareVector[i] != nullptr)
 		for (int j = 0; j < squareVector.size(); j++)
 		{
 			if(squareVector[j] != nullptr && i != j )
@@ -95,8 +95,8 @@ int main()
 					squareVector[i] = nullptr;
 					squareVector[j] = nullptr;
 
-					delete ptr1;
-					delete ptr2;
+					//delete ptr1;
+					//delete ptr2;
 				}
 		}
 	}
