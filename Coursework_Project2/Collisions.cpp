@@ -18,11 +18,19 @@
 
 /*	
 	Expects 2 rectangles (squares) will return true if they are touching
-	Will return false if they aren't touching or aren't actually squares
+	Will return false if they aren't touching or aren't actually squares. Calculates this by checking
+	to see if they are within each others x and y range.
 */
 
-// Just storing pi here to save doing extra calculations or importing it from somewhere else, helps save performance
-const static float pi = 3.14159265359;
+/*
+A helper function will will calculate the distance between two sets of coordiantes and then return
+it. This is used in the above functions in several places to help detect collision
+*/
+static float calculateDistance(float x1, float x2, float y1, float y2)
+{
+	return sqrt(pow(x2 - x1, 2.0) + pow(y2 - y1, 2.0));
+}
+
 
 static bool rectangleRectangleCollision(const Square& sqr1, const Square& sqr2)
 {
@@ -50,31 +58,29 @@ static bool rectangleRectangleCollision(const Square& sqr1, const Square& sqr2)
 }
 
 /*
-	Calculate whether a collision between two circles has occured by seeing if their radi have
-	overlapped with one another. The first section calulates the distance beteween them and then the second
-	section calculates their combined radi and if the distance between them is less than their combined
-	radi then they must be touching. If the distance between the two circles is greater than the combined
-	radi then they are too far away from one another and they cannot be touching.
+	Will calculate whether or not two circles have collided by calculating their combined
+	radius then checking to see if that combined radius is larger than the distance between the
+	two shapes. If it combined radius is greater than the distance hen the two circles must be
+	touching
 */
 static bool circleCircleCollision(const Circle& crl1, const Circle& crl2)
 {
-	float combinedCircumfrance = crl1.getRadius() + crl2.getRadius();
-	float distance = abs(crl1.getx - crl2.getx()) + abs(crl1.gety() - crl2.gety());
+	float distance = calculateDistance(crl2.getx(), crl1.getx(), crl2.gety(), crl1.gety());
 
-	return distance <= combinedCircumfrance;
+	return (crl1.getRadius() + crl2.getRadius()) >= distance;
 }
 
 /*
-	Calculates whether a collison between a circle and rectangle has occured by seeing if their distance
-	between their coordinates is less than or equal to their combined peremeter/radius. If the distance between
-	them is greater than their combined radius/paremeter then they cannot be touching and this function
-	will return false. However, if the distance between them is less than the combined peremter/radius the
-	two shapes must overlap in some way
+	Will calculate whether or not a circle and a rectangle have collided by calculating the sum of
+	their raidus and span. If this total is greater than the distance between their two origin points then
+	the shapes must be touching. If the the total is lower than the distance between the two origin points then
+	the shapes cannot be touching.
 */
 static bool rectangleCircleCollision(const Square& s1, const Circle& s2)
 {
-	float combinedRadius = pow((s1.getWidth() + s1.getHeight()) + s2.getRadius(),2.0);
-	float distance = pow(s1.getx() - s2.getx(),2.0) + pow(s1.gety() - s1.gety(),2.0);
+	float distance = calculateDistance(s2.getx(), s1.getx(), s2.gety(), s1.gety());
+	float rectangleSpan = calculateDistance(s1.calculateShapeX(), s1.getx(), s1.calculateShapeY(), s1.gety());
 
-	return distance <= combinedRadius;
+	return (s2.getRadius() + rectangleSpan) >= distance;
 }
+
