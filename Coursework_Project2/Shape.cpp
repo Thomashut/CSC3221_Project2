@@ -32,12 +32,17 @@ Shape::Shape(const Shape& s)
 
 Shape::~Shape()
 {
-	float* ptr1 = this->x;
-	float* ptr2 = this->y;
+	if (this->x != nullptr)
+	{
+		float* ptr1 = this->x;
+		delete ptr1;
+	}
 
-	delete ptr1;
-	delete ptr2;
-	delete this;
+	if (this->y != nullptr)
+	{
+		float* ptr2 = this->y;
+		delete ptr2;
+	}
 }
 
 float Shape::getx() const

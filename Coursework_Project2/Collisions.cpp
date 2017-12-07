@@ -8,7 +8,7 @@
 	File	: Collisions.cpp
 	Purpose	: Programming for Games - Coursework 2
 	Description :
-		A mixin class that takes shapes and runs functions that
+		A helper class that takes shapes and runs functions that
 		calculate for collisions. I decided to remove the collsions
 		from the shapes themselves to provide additional functionality
 		and extendability. This was I can easily model specific collisions between
@@ -16,19 +16,32 @@
 		I can easily create additional functions here to handle that new behaviour
 */
 
-/*	
-	Expects 2 rectangles (squares) will return true if they are touching
-	Will return false if they aren't touching or aren't actually squares. Calculates this by checking
-	to see if they are within each others x and y range.
-*/
-
 /*
-A helper function will will calculate the distance between two sets of coordiantes and then return
-it. This is used in the above functions in several places to help detect collision
+	A helper function will will calculate the distance between two sets of coordiantes 
+	and then return it. This is used in the above functions in several places to help 
+	detect collision
 */
 static float calculateDistance(float x1, float x2, float y1, float y2)
 {
 	return sqrt(pow(x2 - x1, 2.0) + pow(y2 - y1, 2.0));
+}
+
+// Will return the greater of two given floats
+static float max(float lhs, float rhs)
+{
+	if (lhs > rhs)
+		return lhs;
+	else
+		return rhs;
+}
+
+// Will return the lesser of two given floats
+static float min(float lhs, float rhs)
+{
+	if (lhs < rhs)
+		return lhs;
+	else
+		return rhs;
 }
 
 
@@ -71,16 +84,19 @@ static bool circleCircleCollision(const Circle& crl1, const Circle& crl2)
 }
 
 /*
-	Will calculate whether or not a circle and a rectangle have collided by calculating the sum of
-	their raidus and span. If this total is greater than the distance between their two origin points then
-	the shapes must be touching. If the the total is lower than the distance between the two origin points then
-	the shapes cannot be touching.
+	Will calculate whether or not a circle and a square have collided by finding the point on
+	the rectangle that is closest to the circles center. It will then check to see if that
+	point is within the circle. If it is then the two shapes must have collided and if not
+	they cannot be touching
 */
-static bool rectangleCircleCollision(const Square& s1, const Circle& s2)
+static bool rectangleCircleCollision(const Square& sqr, const Circle& crl)
 {
-	float distance = calculateDistance(s2.getx(), s1.getx(), s2.gety(), s1.gety());
-	float rectangleSpan = calculateDistance(s1.calculateShapeX(), s1.getx(), s1.calculateShapeY(), s1.gety());
+	float nearestX = crl.getx() - max(sqr.getx(), min(crl.getx(), sqr.getx() + sqr.getWidth()));
+	float nearestY = crl.gety() - max(sqr.gety(), min(crl.gety(), sqr.gety() + sqr.getHeight()));
 
-	return (s2.getRadius() + rectangleSpan) >= distance;
+	return (pow(nearestX, 2.0) + pow(nearestY, 2.0)) < pow(crl.getRadius(),2.0);
 }
+
+
+
 

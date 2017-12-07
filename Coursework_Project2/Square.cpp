@@ -36,9 +36,17 @@ Square::Square(float x, float y, float width, float height)
 
 Square::~Square()
 {
-	delete this->width;
-	delete this->height;
-	delete this;
+	if (this->width != nullptr)
+	{
+		float* ptr1 = this->width;
+		delete ptr1;
+	}
+
+	if (this->height != nullptr)
+	{
+		float* ptr2 = this->height;
+		delete ptr2;
+	}
 }
 
 Square& Square::operator=(const Square& s)

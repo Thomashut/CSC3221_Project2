@@ -33,8 +33,11 @@ Circle::Circle(float x, float y, float radius)
 
 Circle::~Circle()
 {
-	delete this->radius;
-	delete this;
+	if (this->radius != nullptr)
+	{
+		float* ptr = this->radius;
+		delete ptr;
+	}
 }
 
 float Circle::getRadius() const
