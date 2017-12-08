@@ -1,10 +1,10 @@
 #pragma once
 #include "Square.h";
 #include "Circle.h";
+#include "Collisions.cpp";
 #include <iostream>;
 #include <vector>;
 #include <random>;
-#include "Collisions.cpp";
 using namespace std;
 /*
 	Author : Thomas Hutchinson
@@ -22,6 +22,19 @@ using namespace std;
 		performance which in a real time enviroment is not ideal. If I were to improve this main
 		function I will adopt a more intelligent collision detection method that only tests
 		for detection on a shape's close neighbours rather than every shape on the grid.
+
+
+	Requirements:
+		With this project you should find a sample output snapshot in the base directory,
+		You should also find the following files:
+			-Shape.h
+			-Square.h
+			-Circle.h
+			-Shape.cpp
+			-Square.cpp
+			-Circle.cpp
+			-Game.cpp (this file)
+			-Collisions.cpp
 */
 
 /* Constants used to stop the shapes from flying away */
@@ -103,19 +116,28 @@ static void testForCircleCircleCollisions(vector<Circle*> &vect)
 	{
 		for (int j = 0; j < vect.size(); j++)
 		{
-			if (vect[i] != nullptr && vect[j] != nullptr && i != j)
+			if (i != j)
 			{
 				if (circleCircleCollision(*vect[i], *vect[j]))
 				{
-					cout << "COLLISION - between Circle : " << i << " and Circle : " << j << endl;
+					std::cout << "COLLISION - between Circle : " << i << " and Circle : " << j << endl;
 					Circle* ptr1 = vect[i];
 					Circle* ptr2 = vect[j];
 
-					vect[i] = nullptr;
-					vect[j] = nullptr;
+					if (i < j)
+					{
+						vect.erase(vect.begin() + i);
+						vect.erase(vect.begin() + (j - 1));
+					}
+					else
+					{
+						vect.erase(vect.begin() + j);
+						vect.erase(vect.begin() + (i - 1));
+					}
 
 					delete ptr1;
 					delete ptr2;
+					break; // no need to do more comparisons as shape is now gone
 				}
 			}
 		}
@@ -130,18 +152,28 @@ static void testForSquareSquareCollisions(vector<Square*> &vect)
 	{
 		for (int j = 0; j < vect.size(); j++)
 		{
-			if (vect[i] != nullptr && vect[j] != nullptr && i != j)
+			if (i != j)
 			{
 				if (rectangleRectangleCollision(*vect[i], *vect[j]))
 				{
+					std::cout << "COLLISION - between Square : " << i << " and Square : " << j << endl;
 					Square* ptr1 = vect[i];
 					Square* ptr2 = vect[j];
 
-					vect[i] = nullptr;
-					vect[j] = nullptr;
+					if (i < j)
+					{
+						vect.erase(vect.begin() + i);
+						vect.erase(vect.begin() + (j - 1));
+					}
+					else
+					{
+						vect.erase(vect.begin() + j);
+						vect.erase(vect.begin() + (i - 1));
+					}
 
 					delete ptr1;
 					delete ptr2;
+					break; // no need to do more comparisons as shape is now gone
 				}
 			}
 		}
@@ -151,7 +183,6 @@ static void testForSquareSquareCollisions(vector<Square*> &vect)
 /* Given a vector of square pointers and a vector of Circle Pointers it will test to make sure that not 
 	of the square have collided with one another. If a collision has occured it will delete the 
 	two collided square
-	TO - DO -- CATCH THE BUG
 	*/
 static void testForSquareCircleCollisions(vector<Square*> &vect1, vector<Circle*> &vect2)
 {
@@ -159,20 +190,22 @@ static void testForSquareCircleCollisions(vector<Square*> &vect1, vector<Circle*
 	{
 		for (int j = 0; j < vect2.size(); j++)
 		{
-			if (vect1[i] != nullptr && vect2[j] != nullptr && i != j)
+		if (i != j)
+		{
+			if (rectangleCircleCollision(*vect1[i], *vect2[j]))
 			{
-				if (rectangleCircleCollision(*vect1[i], *vect2[j]))
-				{
-					Square* ptr1 = vect1[i];
-					Circle* ptr2 = vect2[i];
+				std::cout << "COLLISION - between Square : " << i << " and Circle : " << j << endl;
+				Square* ptr1 = vect1[i];
+				Circle* ptr2 = vect2[j];
 
-					vect1[i] = nullptr;
-					vect2[j] = nullptr;
+				vect1.erase(vect1.begin() + i);
+				vect2.erase(vect2.begin() + j);
 
-					delete ptr1;
-					delete ptr2;
-				}
+				delete ptr1;
+				delete ptr2;
+				break; // no need to do more comparisons as shape is now gone
 			}
+		}
 		}
 	}
 }
@@ -207,28 +240,37 @@ int main()
 		squareVector[i] = sqr;
 	}
 
+	std::cout << "---------- Shapes Generated ----------" << endl;
+
 	for (int i = 0; i < 10; i++)
 	{
-		cout << "Square " << i << " : x = " << squareVector[i]->getx() << " y = " <<
+		std::cout << "Square " << i << " : x = " << squareVector[i]->getx() << " y = " <<
 			squareVector[i]->gety() << " width = " << squareVector[i]->getWidth() <<
 			" height = " << squareVector[i]->getHeight() << endl;
 
-		cout << "--Circle " << i << " : x = " << circleVector[i]->getx() << " y = " <<
+		std::cout << "--Circle " << i << " : x = " << circleVector[i]->getx() << " y = " <<
 			circleVector[i]->gety() << " radius = " << circleVector[i]->getRadius() << endl;
 	}
 
 
-	cout << "---------------------------------------------------" << endl;
+	std::cout << "---------- Initial Collisions ----------" << endl;
 
 	// Check for all collisions durring generation to kill on turn 1
 	testForCircleCircleCollisions(circleVector);
 	testForSquareSquareCollisions(squareVector);
 	testForSquareCircleCollisions(squareVector, circleVector);
-	
-	int frame = 0; // Count how many itterations it takes to destroy all of the shapes
+
+	std:cout << "---------- Shape Count ------------------" << endl;
+
+	std::cout << "About to Begin, Squares Left: " << squareVector.size() << " Cicles Left: " 
+		<< circleVector.size() << endl;
+
+	int frame = 0; // Count how many itterations it takes to destroy all of the shapes 
+
+	std::cout << "---------- Start of Loop ----------" << endl;
 
 	// Main Loop -- Keep looping until there's only one shape (or less) left
-	while (squareVector.size() > 1 || circleVector.size() > 1)
+	while (squareVector.size() + circleVector.size() > 1)
 	{
 		// Move all of the squares and test for collisions
 		for (int i = 0; i < squareVector.size(); i++)
@@ -254,6 +296,8 @@ int main()
 		frame++; // increment the number of complete loops it take to destroy all of the shapes
 	}
 
-	cout << "It took " << frame << " Frames to kill all of the shapes!" << endl;
+	std::cout << "---------- End of Loop -------------" << endl;
+
+	std::cout << "It took " << frame << " Frames to kill all of the shapes!" << endl;
 }
 

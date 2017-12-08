@@ -73,7 +73,7 @@ static bool rectangleRectangleCollision(const Square& sqr1, const Square& sqr2)
 /*
 	Will calculate whether or not two circles have collided by calculating their combined
 	radius then checking to see if that combined radius is larger than the distance between the
-	two shapes. If it combined radius is greater than the distance hen the two circles must be
+	two shapes. If it combined radius is greater than the distance then the two circles must be
 	touching
 */
 static bool circleCircleCollision(const Circle& crl1, const Circle& crl2)
@@ -96,7 +96,3 @@ static bool rectangleCircleCollision(const Square& sqr, const Circle& crl)
 
 	return (pow(nearestX, 2.0) + pow(nearestY, 2.0)) < pow(crl.getRadius(),2.0);
 }
-
-
-
-

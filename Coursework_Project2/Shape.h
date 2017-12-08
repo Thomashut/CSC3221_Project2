@@ -5,7 +5,7 @@
 	File   : Shape.h
 	Purpose: Programming for Games - Coursework 2
 	Description:
-		An abstract base class that provides a base level of implimentation rules for all
+		A base class that provides a base level of implimentation rules for all
 		types that fall under a shape
 */
 const static float DEFAULT_X = 1;
